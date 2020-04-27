@@ -72,6 +72,7 @@ export class AppComponent {
         this.subText = 'Range Exceeded';
       }
     } else {
+      this.mainText = 'ERROR';
       this.subText = 'ERROR: Invalid Operation';
     }
     this.answered = true;
