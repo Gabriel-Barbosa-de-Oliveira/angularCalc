@@ -22,6 +22,15 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initialize application s variables ', () => {
+    expect(component.subText).toBe('');
+    expect(component.mainText).toBe('');
+    expect(component.operator).toBe('');
+    expect(component.answered).toBe(false);
+    expect(component.operatorSet).toBe(false);
+    expect(component.calculationString).toBe(''); 
+  });
+
   it('should insert first number to main text', () => {
     component.pressKey("1");
     expect(component.mainText).toBe("1");
@@ -100,14 +109,6 @@ describe('AppComponent', () => {
     component.pressKey("2");
     component.getAnswer();
     expect(component.mainText).toBe("14");
-  });
-
-  it('should give result infinity to division/0 operation', () => {
-    component.pressKey("7");
-    component.pressKey("/");
-    component.pressKey("0");
-    component.getAnswer();
-    expect(component.mainText).toBe("Infinity");
   });
 
   it('should give result infinity to division/0 operation', () => {

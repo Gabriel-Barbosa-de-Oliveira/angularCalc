@@ -7,19 +7,32 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  subText = '';
-  mainText = '';
-  operand1: number;
-  operand2: number;
-  operator = '';
-  calculationString = '';
-  answered = false;
-  operatorSet = false;
+  public subText: string;
+  public operand1: number;
+  public operand2: number;
+  public operator: string;
+  public mainText: string;
+  public answered: boolean;
+  public operatorSet: boolean;
+  public calculationString: string;
+
+  constructor() {
+    this.initializeVariables();
+  }
+
+  private initializeVariables() {
+    this.subText = '';
+    this.mainText = '';
+    this.operator = '';
+    this.answered = false;
+    this.operatorSet = false;
+    this.calculationString = '';
+  }
 
   pressKey(key: string) {
     if (key === '/' || key === 'x' || key === '-' || key === '+') {
       const lastKey = this.mainText[this.mainText.length - 1];
-      if (lastKey === '/' || lastKey === 'x' || lastKey === '-' || lastKey === '+')  {
+      if (lastKey === '/' || lastKey === 'x' || lastKey === '-' || lastKey === '+') {
         this.operatorSet = true;
       }
       if ((this.operatorSet) || (this.mainText === '')) {
