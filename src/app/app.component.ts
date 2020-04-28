@@ -29,26 +29,41 @@ export class AppComponent {
     this.calculationString = '';
   }
 
-  pressKey(key: string) {
-    if (key === '/' || key === 'x' || key === '-' || key === '+') {
-      const lastKey = this.currentOperation[this.currentOperation.length - 1];
-      if (lastKey === '/' || lastKey === 'x' || lastKey === '-' || lastKey === '+') {
-        this.settedOperation = true;
-      }
-      if ((this.settedOperation) || (this.currentOperation === '')) {
-        return;
-      }
-      this.operand1 = parseFloat(this.currentOperation);
-      this.operator = key;
-      this.settedOperation = true;
-    }
-    if (this.currentOperation.length === 10) {
-      return;
-    }
-    this.currentOperation += key;
+  public pressKey(key: string) {
+    this.discoverOperationType(key);
+    this.mapCurrentOperationIfItIsValid(key);
   }
 
-  clearAllOperations() {
+  private discoverOperationType(key: string) {
+    if (this.checkIfOperatorIsAnAction(key)) {
+      this.mapSettedOperationIfLastCaracterIsAnAction();
+      if ((!this.settedOperation) || (this.currentOperation !== ''))
+        this.mapOperator(key);
+    }
+  }
+
+  private checkIfOperatorIsAnAction(key: string) {
+    return key === '/' || key === 'x' || key === '-' || key === '+';
+  }
+
+  private mapSettedOperationIfLastCaracterIsAnAction() {
+    if (this.checkIfOperatorIsAnAction(this.currentOperation[this.currentOperation.length - 1])) {
+      this.settedOperation = true;
+    }
+  }
+
+  private mapOperator(key: string) {
+    this.operand1 = parseFloat(this.currentOperation);
+    this.operator = key;
+    this.settedOperation = true;
+  }
+
+  private mapCurrentOperationIfItIsValid(key: string) {
+    if (this.currentOperation.length < 10)
+      this.currentOperation += key;
+  }
+
+  public clearAllOperations() {
     this.resetSettedOperation();
     this.resetCurrentOperation();
     this.resetExecutedOperation();
@@ -57,7 +72,6 @@ export class AppComponent {
   private resetCurrentOperation() {
     this.currentOperation = '';
   }
-
 
   private resetExecutedOperation() {
     this.executedOperation = '';
