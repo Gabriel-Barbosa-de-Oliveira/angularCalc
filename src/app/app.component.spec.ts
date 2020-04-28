@@ -83,7 +83,7 @@ describe('AppComponent', () => {
     component.pressKey("1");
     component.pressKey("+");
     component.pressKey("2");
-    component.getAnswer();
+    component.printResult();
     expect(component.currentOperation).toBe("3");
   });
 
@@ -91,7 +91,7 @@ describe('AppComponent', () => {
     component.pressKey("1");
     component.pressKey("-");
     component.pressKey("2");
-    component.getAnswer();
+    component.printResult();
     expect(component.currentOperation).toBe("-1");
   });
 
@@ -99,7 +99,7 @@ describe('AppComponent', () => {
     component.pressKey("14");
     component.pressKey("/");
     component.pressKey("2");
-    component.getAnswer();
+    component.printResult();
     expect(component.currentOperation).toBe("7");
   });
 
@@ -107,7 +107,7 @@ describe('AppComponent', () => {
     component.pressKey("7");
     component.pressKey("x");
     component.pressKey("2");
-    component.getAnswer();
+    component.printResult();
     expect(component.currentOperation).toBe("14");
   });
 
@@ -115,7 +115,7 @@ describe('AppComponent', () => {
     component.pressKey("7");
     component.pressKey("/");
     component.pressKey("0");
-    component.getAnswer();
+    component.printResult();
     expect(component.currentOperation).toBe("Infinity");
   });
 
@@ -123,7 +123,7 @@ describe('AppComponent', () => {
     component.pressKey("7");
     component.pressKey("%");
     component.pressKey("0");
-    component.getAnswer();
+    component.printResult();
     expect(component.currentOperation).toBe("ERROR");
     expect(component.executedOperation).toBe("ERROR: Invalid Operation");
   });

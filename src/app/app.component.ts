@@ -72,7 +72,7 @@ export class AppComponent {
   private resetSettedOperation() {
     this.settedOperation = false;
   }
-  
+
   private resetCurrentOperation() {
     this.currentOperation = '';
   }
@@ -81,41 +81,78 @@ export class AppComponent {
     this.executedOperation = '';
   }
 
-
-  getAnswer() {
-    this.calculationString = this.currentOperation;
+  public printResult() {
     this.operand2 = parseFloat(this.currentOperation.split(this.operator)[1]);
-    if (this.operator === '/') {
-      this.executedOperation = this.currentOperation;
-      this.currentOperation = (this.operand1 / this.operand2).toString();
-      this.executedOperation = this.calculationString;
-      if (this.currentOperation.length > 9) {
-        this.currentOperation = this.currentOperation.substr(0, 9);
-      }
-    } else if (this.operator === 'x') {
-      this.executedOperation = this.currentOperation;
-      this.currentOperation = (this.operand1 * this.operand2).toString();
-      this.executedOperation = this.calculationString;
-      if (this.currentOperation.length > 9) {
-        this.currentOperation = 'ERROR';
-        this.executedOperation = 'Range Exceeded';
-      }
-    } else if (this.operator === '-') {
-      this.executedOperation = this.currentOperation;
-      this.currentOperation = (this.operand1 - this.operand2).toString();
-      this.executedOperation = this.calculationString;
-    } else if (this.operator === '+') {
-      this.executedOperation = this.currentOperation;
-      this.currentOperation = (this.operand1 + this.operand2).toString();
-      this.executedOperation = this.calculationString;
-      if (this.currentOperation.length > 9) {
-        this.currentOperation = 'ERROR';
-        this.executedOperation = 'Range Exceeded';
-      }
-    } else {
-      this.currentOperation = 'ERROR';
-      this.executedOperation = 'ERROR: Invalid Operation';
-    }
+    this.executeAction(this.getPossibleOperators()[this.operator]);
     this.answered = true;
+  }
+
+  private executeAction(action: any) {
+    if (action)
+      action();
+    else
+      this.setErrorMessage('ERROR: Invalid Operation', 'ERROR');
+  }
+
+  private plusOperation() {
+    this.mapExecutedOperation()
+    this.currentOperation = (this.operand1 + this.operand2).toString();
+    this.setRangeExceededError();
+  }
+
+  private minusOperation() {
+    this.mapExecutedOperation()
+    this.currentOperation = (this.operand1 - this.operand2).toString();
+  }
+
+  private multiplicationOperation() {
+    this.mapExecutedOperation()
+    this.currentOperation = (this.operand1 * this.operand2).toString();
+    this.setRangeExceededError();
+  }
+
+  private divisionOperation() {
+    this.mapExecutedOperation()
+    this.currentOperation = (this.operand1 / this.operand2).toString();
+    if (this.currentOperation.length > 9)
+      this.currentOperation = this.currentOperation.substr(0, 9);
+  }
+
+  private mapExecutedOperation() {
+    this.executedOperation = this.currentOperation;
+  }
+
+  private setRangeExceededError() {
+    if (this.currentOperation.length > 9)
+      this.setErrorMessage('ERROR', 'Range Exceeded');
+  }
+
+  private setErrorMessage(executedOperation: string, currentOperation: string) {
+    this.executedOperation = executedOperation;
+    this.currentOperation = currentOperation;
+  }
+
+  private getPossibleOperators() {
+    return {
+      "+": this.getPlusOperationFunction(),
+      "-": this.getMinusOperationFunction(),
+      "x": this.getMultiplicationFunction(),
+      "/": this.getDivisionOperationFunction()
+    }
+  }
+
+  private getPlusOperationFunction() {
+    return () => { this.plusOperation() };
+  }
+
+  private getMinusOperationFunction() {
+    return () => { this.minusOperation() };
+  }
+  private getMultiplicationFunction() {
+    return () => { this.multiplicationOperation() };
+  }
+
+  private getDivisionOperationFunction() {
+    return () => { this.divisionOperation() };
   }
 }
