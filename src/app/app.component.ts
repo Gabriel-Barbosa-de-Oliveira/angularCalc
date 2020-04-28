@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  public subText: string;
+  public executedOperation: string;
   public operand1: number;
   public operand2: number;
   public operator: string;
-  public mainText: string;
+  public currentOperation: string;
   public answered: boolean;
-  public operatorSet: boolean;
+  public settedOperation: boolean;
   public calculationString: string;
 
   constructor() {
@@ -21,72 +21,85 @@ export class AppComponent {
   }
 
   private initializeVariables() {
-    this.subText = '';
-    this.mainText = '';
+    this.executedOperation = '';
+    this.currentOperation = '';
     this.operator = '';
     this.answered = false;
-    this.operatorSet = false;
+    this.settedOperation = false;
     this.calculationString = '';
   }
 
   pressKey(key: string) {
     if (key === '/' || key === 'x' || key === '-' || key === '+') {
-      const lastKey = this.mainText[this.mainText.length - 1];
+      const lastKey = this.currentOperation[this.currentOperation.length - 1];
       if (lastKey === '/' || lastKey === 'x' || lastKey === '-' || lastKey === '+') {
-        this.operatorSet = true;
+        this.settedOperation = true;
       }
-      if ((this.operatorSet) || (this.mainText === '')) {
+      if ((this.settedOperation) || (this.currentOperation === '')) {
         return;
       }
-      this.operand1 = parseFloat(this.mainText);
+      this.operand1 = parseFloat(this.currentOperation);
       this.operator = key;
-      this.operatorSet = true;
+      this.settedOperation = true;
     }
-    if (this.mainText.length === 10) {
+    if (this.currentOperation.length === 10) {
       return;
     }
-    this.mainText += key;
+    this.currentOperation += key;
   }
 
-  allClear() {
-    this.mainText = '';
-    this.subText = '';
-    this.operatorSet = false;
+  clearAllOperations() {
+    this.resetSettedOperation();
+    this.resetCurrentOperation();
+    this.resetExecutedOperation();
+  }
+
+  private resetCurrentOperation() {
+    this.currentOperation = '';
+  }
+
+
+  private resetExecutedOperation() {
+    this.executedOperation = '';
+  }
+
+  private resetSettedOperation() {
+    this.settedOperation = false;
   }
 
   getAnswer() {
-    this.calculationString = this.mainText;
-    this.operand2 = parseFloat(this.mainText.split(this.operator)[1]);
+    this.calculationString = this.currentOperation;
+    this.operand2 = parseFloat(this.currentOperation.split(this.operator)[1]);
     if (this.operator === '/') {
-      this.subText = this.mainText;
-      this.mainText = (this.operand1 / this.operand2).toString();
-      this.subText = this.calculationString;
-      if (this.mainText.length > 9) {
-        this.mainText = this.mainText.substr(0, 9);
+      this.executedOperation = this.currentOperation;
+      this.currentOperation = (this.operand1 / this.operand2).toString();
+      this.executedOperation = this.calculationString;
+      if (this.currentOperation.length > 9) {
+        this.currentOperation = this.currentOperation.substr(0, 9);
       }
     } else if (this.operator === 'x') {
-      this.subText = this.mainText;
-      this.mainText = (this.operand1 * this.operand2).toString();
-      this.subText = this.calculationString;
-      if (this.mainText.length > 9) {
-        this.mainText = 'ERROR';
-        this.subText = 'Range Exceeded';
+      this.executedOperation = this.currentOperation;
+      this.currentOperation = (this.operand1 * this.operand2).toString();
+      this.executedOperation = this.calculationString;
+      if (this.currentOperation.length > 9) {
+        this.currentOperation = 'ERROR';
+        this.executedOperation = 'Range Exceeded';
       }
     } else if (this.operator === '-') {
-      this.subText = this.mainText;
-      this.mainText = (this.operand1 - this.operand2).toString();
-      this.subText = this.calculationString;
+      this.executedOperation = this.currentOperation;
+      this.currentOperation = (this.operand1 - this.operand2).toString();
+      this.executedOperation = this.calculationString;
     } else if (this.operator === '+') {
-      this.subText = this.mainText;
-      this.mainText = (this.operand1 + this.operand2).toString();
-      this.subText = this.calculationString;
-      if (this.mainText.length > 9) {
-        this.mainText = 'ERROR';
-        this.subText = 'Range Exceeded';
+      this.executedOperation = this.currentOperation;
+      this.currentOperation = (this.operand1 + this.operand2).toString();
+      this.executedOperation = this.calculationString;
+      if (this.currentOperation.length > 9) {
+        this.currentOperation = 'ERROR';
+        this.executedOperation = 'Range Exceeded';
       }
     } else {
-      this.mainText = 'ERROR';
-      this.subText = 'ERROR: Invalid Operation';
+      this.currentOperation = 'ERROR';
+      this.executedOperation = 'ERROR: Invalid Operation';
     }
     this.answered = true;
   }

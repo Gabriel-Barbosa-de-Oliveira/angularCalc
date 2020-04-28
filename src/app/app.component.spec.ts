@@ -23,60 +23,60 @@ describe('AppComponent', () => {
   });
 
   it('should initialize application s variables ', () => {
-    expect(component.subText).toBe('');
-    expect(component.mainText).toBe('');
+    expect(component.executedOperation).toBe('');
+    expect(component.currentOperation).toBe('');
     expect(component.operator).toBe('');
     expect(component.answered).toBe(false);
-    expect(component.operatorSet).toBe(false);
+    expect(component.settedOperation).toBe(false);
     expect(component.calculationString).toBe(''); 
   });
 
   it('should insert first number to main text', () => {
     component.pressKey("1");
-    expect(component.mainText).toBe("1");
+    expect(component.currentOperation).toBe("1");
   });
 
   it('should insert operator to main text', () => {
     component.pressKey("1");
     component.pressKey("x");
-    expect(component.mainText).toBe("1x");
+    expect(component.currentOperation).toBe("1x");
   });
 
   it('should insert second to main text', () => {
     component.pressKey("1");
     component.pressKey("x");
     component.pressKey("2");
-    expect(component.mainText).toBe("1x2");
+    expect(component.currentOperation).toBe("1x2");
   });
 
   it('should clear calculator operations with only one number', () => {
     component.pressKey("1");
-    expect(component.mainText).toBe("1");
-    component.allClear();
-    expect(component.mainText).toBe("");
-    expect(component.subText).toBe("");
-    expect(component.operatorSet).toBe(false);
+    expect(component.currentOperation).toBe("1");
+    component.clearAllOperations();
+    expect(component.currentOperation).toBe("");
+    expect(component.executedOperation).toBe("");
+    expect(component.settedOperation).toBe(false);
   });
 
   it('should clear calculator operations when operator is already set', () => {
     component.pressKey("1");
     component.pressKey("x");
-    expect(component.mainText).toBe("1x");
-    component.allClear();
-    expect(component.mainText).toBe("");
-    expect(component.subText).toBe("");
-    expect(component.operatorSet).toBe(false);
+    expect(component.currentOperation).toBe("1x");
+    component.clearAllOperations();
+    expect(component.currentOperation).toBe("");
+    expect(component.executedOperation).toBe("");
+    expect(component.settedOperation).toBe(false);
   });
 
   it('should clear calculator operations when operator is fully set', () => {
     component.pressKey("1");
     component.pressKey("x");
     component.pressKey("2");
-    expect(component.mainText).toBe("1x2");
-    component.allClear();
-    expect(component.mainText).toBe("");
-    expect(component.subText).toBe("");
-    expect(component.operatorSet).toBe(false);
+    expect(component.currentOperation).toBe("1x2");
+    component.clearAllOperations();
+    expect(component.currentOperation).toBe("");
+    expect(component.executedOperation).toBe("");
+    expect(component.settedOperation).toBe(false);
   });
 
   it('should give result do plus operation', () => {
@@ -84,7 +84,7 @@ describe('AppComponent', () => {
     component.pressKey("+");
     component.pressKey("2");
     component.getAnswer();
-    expect(component.mainText).toBe("3");
+    expect(component.currentOperation).toBe("3");
   });
 
   it('should give result do minus operation', () => {
@@ -92,7 +92,7 @@ describe('AppComponent', () => {
     component.pressKey("-");
     component.pressKey("2");
     component.getAnswer();
-    expect(component.mainText).toBe("-1");
+    expect(component.currentOperation).toBe("-1");
   });
 
   it('should give result do division operation', () => {
@@ -100,7 +100,7 @@ describe('AppComponent', () => {
     component.pressKey("/");
     component.pressKey("2");
     component.getAnswer();
-    expect(component.mainText).toBe("7");
+    expect(component.currentOperation).toBe("7");
   });
 
   it('should give result do multiplication operation', () => {
@@ -108,7 +108,7 @@ describe('AppComponent', () => {
     component.pressKey("x");
     component.pressKey("2");
     component.getAnswer();
-    expect(component.mainText).toBe("14");
+    expect(component.currentOperation).toBe("14");
   });
 
   it('should give result infinity to division/0 operation', () => {
@@ -116,7 +116,7 @@ describe('AppComponent', () => {
     component.pressKey("/");
     component.pressKey("0");
     component.getAnswer();
-    expect(component.mainText).toBe("Infinity");
+    expect(component.currentOperation).toBe("Infinity");
   });
 
   it('should give error message to invalid operation', () => {
@@ -124,8 +124,8 @@ describe('AppComponent', () => {
     component.pressKey("%");
     component.pressKey("0");
     component.getAnswer();
-    expect(component.mainText).toBe("ERROR");
-    expect(component.subText).toBe("ERROR: Invalid Operation");
+    expect(component.currentOperation).toBe("ERROR");
+    expect(component.executedOperation).toBe("ERROR: Invalid Operation");
   });
 
 });
