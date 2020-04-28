@@ -69,6 +69,10 @@ export class AppComponent {
     this.resetExecutedOperation();
   }
 
+  private resetSettedOperation() {
+    this.settedOperation = false;
+  }
+  
   private resetCurrentOperation() {
     this.currentOperation = '';
   }
@@ -77,9 +81,6 @@ export class AppComponent {
     this.executedOperation = '';
   }
 
-  private resetSettedOperation() {
-    this.settedOperation = false;
-  }
 
   getAnswer() {
     this.calculationString = this.currentOperation;
